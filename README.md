@@ -9,6 +9,5 @@ This project demonstrates using the proposed Signals API.
 - npm link
 - cd to the project root directory
 - npm link signal-polyfill
-- npm run build
 - npm run dev
 - browse localhost:5173
