@@ -1,6 +1,6 @@
-# JavaScript Effects
+# JavaScript Signals
 
-This project demonstrates using the proposed Effects API.
+This project demonstrates using the proposed Signals API.
 
 ## Steps to run
 
@@ -11,3 +11,4 @@ This project demonstrates using the proposed Effects API.
 - npm link signal-polyfill
 - npm run build
 - npm run dev
+- browse localhost:5173
