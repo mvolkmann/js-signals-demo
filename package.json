@@ -1,0 +1,17 @@
+{
+  "name": "signals-demo",
+  "version": "1.0.0",
+  "description": "signals demo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "author": "R. Mark Volkmann",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.2.10",
+    "vite-plugin-dts": "^3.9.0"
+  }
+}
