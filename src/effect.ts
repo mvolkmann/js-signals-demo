@@ -21,10 +21,10 @@ type Cleanup = () => void;
 type Callback = () => Cleanup | void;
 export function effect(callback: Callback) {
   // The callback function passed to the effect function
-  // can return a cleanup function.
+  // can optionally return a "cleanup" function.
   // If it does then the cleanup function is called every time
   // a piece of state used in the callback function changes,
-  // and again when the effect goes out of scope.
+  // and again if the function returned by this one is called.
   let cleanup: Cleanup | undefined;
 
   const computed = new Signal.Computed(() => {
@@ -35,6 +35,8 @@ export function effect(callback: Callback) {
   watcher.watch(computed);
   computed.get();
 
+  // The caller of "effect" can call this returned function
+  // to stop watching for state changes.
   return () => {
     watcher.unwatch(computed);
     if (cleanup) cleanup();
