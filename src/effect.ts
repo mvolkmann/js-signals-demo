@@ -1,39 +1,42 @@
-import { Signal } from "signal-polyfill";
+import {Signal} from 'signal-polyfill';
 
 let needsEnqueue = true;
 
-const w = new Signal.subtle.Watcher(() => {
+function processPending() {
+  needsEnqueue = true;
+  for (const s of watcher.getPending()) {
+    s.get();
+  }
+  watcher.watch();
+}
+
+const watcher = new Signal.subtle.Watcher(() => {
   if (needsEnqueue) {
     needsEnqueue = false;
     queueMicrotask(processPending);
   }
 });
 
-function processPending() {
-  needsEnqueue = true;
-
-  for (const s of w.getPending()) {
-    s.get();
-  }
-
-  w.watch();
-}
-
 type Cleanup = () => void;
-type GetFn = () => Cleanup | void;
-export function effect(callback: GetFn) {
-  let cleanup: Cleanup | null;
+type Callback = () => Cleanup | void;
+export function effect(callback: Callback) {
+  // The callback function passed to the effect function
+  // can return a cleanup function.
+  // If it does then the cleanup function is called every time
+  // a piece of state used in the callback function changes,
+  // and again when the effect goes out of scope.
+  let cleanup: Cleanup | undefined;
 
   const computed = new Signal.Computed(() => {
-    typeof cleanup === "function" && cleanup();
-    cleanup = callback();
+    if (cleanup) cleanup();
+    cleanup = callback() || undefined;
   });
 
-  w.watch(computed);
+  watcher.watch(computed);
   computed.get();
 
   return () => {
-    w.unwatch(computed);
-    typeof cleanup === "function" && cleanup();
+    watcher.unwatch(computed);
+    if (cleanup) cleanup();
   };
 }

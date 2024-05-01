@@ -1,4 +1,4 @@
-function getElement(selector: string): HTMLElement {
+export function getElement(selector: string): HTMLElement {
   const element = document.querySelector(selector) as HTMLElement;
   if (!element) throw new Error(`No element found for selector: ${selector}`);
   return element;

@@ -9,13 +9,16 @@
   </head>
   <body>
     <h1>Signals Demo</h1>
-    <div id="count"></div>
-    <div id="target"></div>
+    <div>Count: <span id="count"></span></div>
+    <div>Parity: <span id="parity"></span></div>
+    <button id="unwatch">Unwatch Parity</button>
 
-    <input id="n1" type="number" value="0" onchange="updateN1" />
-    +
-    <input id="n2" type="number" value="0" onchange="updateN2" />
-    =
-    <span id="sum"></span>
+    <div>
+      <input id="n1" type="number" value="0" onchange="updateN1" />
+      +
+      <input id="n2" type="number" value="0" onchange="updateN2" />
+      =
+      <span id="sum"></span>
+    </div>
   </body>
 </html>
