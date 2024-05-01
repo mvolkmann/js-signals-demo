@@ -28,7 +28,7 @@ export function effect(callback: Callback) {
   let cleanup: Cleanup | undefined;
 
   const computed = new Signal.Computed(() => {
-    if (cleanup) cleanup();
+    if (typeof cleanup === 'function') cleanup();
     cleanup = callback() || undefined;
   });
 
@@ -39,6 +39,6 @@ export function effect(callback: Callback) {
   // to stop watching for state changes.
   return () => {
     watcher.unwatch(computed);
-    if (cleanup) cleanup();
+    if (typeof cleanup === 'function') cleanup();
   };
 }
