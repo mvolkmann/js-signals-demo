@@ -2,9 +2,10 @@ import {effect} from './effect';
 import {Signal} from 'signal-polyfill';
 import {bindNumberInput, getElement, setInnerText} from './utilities';
 
-const counter = new Signal.State(0);
-const isEven = new Signal.Computed(() => (counter.get() & 1) == 0);
-const parity = new Signal.Computed(() => (isEven.get() ? 'even' : 'odd'));
+const {Computed, State} = Signal;
+const counter = new State(0);
+const isEven = new Computed(() => (counter.get() & 1) == 0);
+const parity = new Computed(() => (isEven.get() ? 'even' : 'odd'));
 
 // Log a state value every time it changes.
 effect(() => console.log(parity.get()));
@@ -20,8 +21,8 @@ function simulate() {
 }
 simulate();
 
-const n1State = new Signal.State(0);
-const n2State = new Signal.State(0);
+const n1 = new State(0);
+const n2 = new State(0);
 
 window.onload = () => {
   effect(() => setInnerText('#count', counter.get()));
@@ -33,15 +34,15 @@ window.onload = () => {
     button.remove();
   };
 
-  bindNumberInput('#n1', n1State);
-  bindNumberInput('#n2', n2State);
+  bindNumberInput('#n1', n1);
+  bindNumberInput('#n2', n2);
   effect(() => {
-    setInnerText('#sum', n1State.get() + n2State.get());
+    setInnerText('#sum', n1.get() + n2.get());
   });
   getElement('#reset').onclick = () => {
     counter.set(0);
     simulate();
-    n1State.set(0);
-    n2State.set(0);
+    n1.set(0);
+    n2.set(0);
   };
 };
