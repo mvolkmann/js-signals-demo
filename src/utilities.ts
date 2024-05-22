@@ -15,6 +15,6 @@ export function getElement(selector: string): HTMLElement {
 }
 
 export function setInnerText(selector: string, value: string | number) {
-  const element = getElement(selector) as HTMLInputElement;
+  const element = getElement(selector) as HTMLElement;
   element.innerText = String(value);
 }
